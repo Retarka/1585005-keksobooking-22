@@ -6,11 +6,16 @@ function getRandomIntInclusive(min, max) {
 }
 
 
-function randomInteger(min, max) {
-  // получить случайное число от (min-1.1) до (max+1.2)
-  let rand = min - 1.1 + Math.random() * (max - min + 1.2);
-  return Math.round(rand);
+// [fractionalsign=1] = колличество знаков после запятой.
+
+// eslint-disable-next-line no-unused-vars
+function getRandomInteger(min, max, fractionalsign = 1) {
+  const source = 10 ** fractionalsign;
+  const minimum = min < 0 ? 0 : min * source;
+  const maximum = max * source;
+  // eslint-disable-next-line no-unused-vars
+  return getRandomIntInclusive(minimum, maximum) / source;
 }
 
-alert(randomInteger(1.1, 5.1));
+
 
