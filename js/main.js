@@ -1,61 +1,39 @@
-// // eslint-disable-next-line no-unused-vars
-// function getRandomIntInclusive(min, max) {
-//   min = Math.ceil(min);
-//   max = Math.floor(max);
-//   return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-// }
+const OBJECTS = 10;
 
+const PRICE_MINIMUM = 1700000;
 
-// // [fractionalsign=1] = колличество знаков после запятой.
+const PRICE_MAXIMUM = 170000000;
 
-// // eslint-disable-next-line no-unused-vars
-// function getRandomReal(min, max, fractionalsign = 1) {
-//   const source = 10 ** fractionalsign;
-//   const minimum = min < 0 ? 0 : min * source;
-//   const maximum = max * source;
-//   // eslint-disable-next-line no-unused-vars
-//   return getRandomIntInclusive(minimum, maximum) / source;
-// }
+const GUESTS_MAXIMUM = 10;
 
+const ROOMS_MAXIMUM = 5;
 
-// eslint-disable-next-line no-unused-vars
-const object = 4;
-// eslint-disable-next-line no-unused-vars
-const price_minimum = 1700000;
-// eslint-disable-next-line no-unused-vars
-const price_maximum = 170000000;
-// eslint-disable-next-line no-unused-vars
-const guest_maximum = 10;
-// eslint-disable-next-line no-unused-vars
-const rooms_maximum = 5;
-// eslint-disable-next-line no-unused-vars
-const x_minimum = 35.65000;
-// eslint-disable-next-line no-unused-vars
-const x_maximum= 35.70000;
-// eslint-disable-next-line no-unused-vars
-const y_minimum= 139.70000;
-// eslint-disable-next-line no-unused-vars
-const y_maximum = 139.80000;
-// eslint-disable-next-line no-unused-vars
-const fractionalsign_x_y = 1;
+const X_MINIMUM = 35.65000;
 
-// eslint-disable-next-line no-unused-vars
-const time = [
+const X_MAXIMUM= 35.70000;
+
+const Y_MINIMUM= 139.70000;
+
+const Y_MAXIMUM = 139.80000;
+
+const FRACTIONALSIGN_X_Y = 1;
+
+const TIMES = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-// eslint-disable-next-line no-unused-vars
-const object_place = [
+
+const OBJECT_PLACES = [
   'palace',
   'flat',
   'house',
   'bungalow',
 ];
 
-// eslint-disable-next-line no-unused-vars
-const services = [
+
+const SERVICES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -64,22 +42,28 @@ const services = [
   'conditioner',
 ];
 
-// eslint-disable-next-line no-unused-vars
-const photo = [
+
+const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
-// eslint-disable-next-line no-unused-vars
-const description_of_objects = [
-  'Дворец почти как в Геленджике',
+
+const DESCRIPTION_OF_OBJECTS = [
+  'Дворец, почти как в Геленджике',
   'Квартира с бабушкиным ремонтом',
   'Домик в деревне',
   'Бунгало прямо на Малидивах, честно',
+  'Место силы',
+  'Квартира, в которой живут мыши',
+  'Убежище от людей',
+  'Бунгало для настоящих любителей одиночества',
+  'Однушка в Химках, но зато не в кредит',
+  'Место для сумасшедших тусовок',
 ];
 
-// eslint-disable-next-line no-unused-vars
+
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -89,103 +73,73 @@ function getRandomIntInclusive(min, max) {
 
 // [fractionalsign=1] = колличество знаков после запятой.
 
-// eslint-disable-next-line no-unused-vars
+
 function getRandomReal(min, max, fractionalsign = 1) {
   const source = 10 ** fractionalsign;
   const minimum = min < 0 ? 0 : min * source;
   const maximum = max * source;
-  // eslint-disable-next-line no-unused-vars
+
   return getRandomIntInclusive(minimum, maximum) / source;
 }
 
-// eslint-disable-next-line no-unused-vars
-const getRandomMassifElement = (elements) => {
-  return elements[getRandomIntInclusive(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => {
+  const randomArrayPointer = getRandomIntInclusive(0, elements.length - 1);
+  return elements[randomArrayPointer];
 };
 
-// eslint-disable-next-line no-unused-vars
-const getRandomLongForMassif = (length) => {
-  return getRandomIntInclusive(0, length);
-}
-
-// eslint-disable-next-line no-unused-vars
-const getCreateRandomMassif = (elements) => {
-  const newMassifLong = getRandomLongForMassif(elements.length);
-  let tempMassif = [];
-  if (newMassifLong === 0) {
-    return tempMassif;
+const reshuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
+};
 
-  tempMassif[0] = getRandomIntInclusive(0, elements.length - 1);
-  if (newMassifLong !== 1) {
-    for (let i = 1; i < newMassifLong; i++) {
-      let newish;
-      do {
-        newish = true;
-        let randomNumber = getRandomIntInclusive(0, elements.length - 1);
-        for (let j = 0; j < i; j++) {
-          if (randomNumber === tempMassif[j]) {
-            newish = false;
-          }
-        }
-        if (newish === true) {
-          tempMassif[i] = randomNumber;
-        }
-      }
-      while (newish === false)
-    }
-  }
+const generateRandomArray = (newArray) => {
+  const randomArrayPointer = getRandomIntInclusive(0, newArray.length - 1);
+  reshuffle(newArray);
+  return newArray.slice(randomArrayPointer);
+};
 
-  const newMassif = tempMassif.map((newMas) => {
-    return elements[newMas];
-  });
-
-  return newMassif;
-}
-
-// eslint-disable-next-line no-unused-vars
-const getCreateAutor = () => {
+const generateAutor = () => {
   return {
     avatar: 'img/avatars/user0' + getRandomIntInclusive(1, 8) + '.png',
   };
 }
 
-// eslint-disable-next-line no-unused-vars
-const getCreateOffer = (newLocation) => {
+const generateOffer = (newLocation) => {
   return {
     title: 'Вы не сможете устоять, увидев наши условия!',
     address: newLocation.x + ', ' + newLocation.y,
-    price: getRandomIntInclusive(price_minimum, price_maximum),
-    type: getRandomMassifElement(object_place),
-    rooms: getRandomIntInclusive(0, rooms_maximum),
-    guests: getRandomIntInclusive(0, guest_maximum),
-    checkin: getRandomMassifElement(time),
-    checkout: getRandomMassifElement(time),
-    features: getCreateRandomMassif(services),
-    description: getRandomMassifElement(description_of_objects),
-    photos: getCreateRandomMassif(photo),
+    price: getRandomIntInclusive(PRICE_MINIMUM, PRICE_MAXIMUM),
+    type: getRandomArrayElement(OBJECT_PLACES),
+    rooms: getRandomIntInclusive(0, ROOMS_MAXIMUM),
+    guests: getRandomIntInclusive(0, GUESTS_MAXIMUM),
+    checkin: getRandomArrayElement(TIMES),
+    checkout: getRandomArrayElement(TIMES),
+    features: generateRandomArray(SERVICES),
+    description: getRandomArrayElement(DESCRIPTION_OF_OBJECTS),
+    photos: generateRandomArray(PHOTOS),
   };
 }
 
-const getCreateLocation = () => {
+const generateLocation = () => {
   return {
-    x: getRandomReal(x_minimum, x_maximum, fractionalsign_x_y),
-    y: getRandomReal(y_minimum, y_minimum, fractionalsign_x_y),
+    x: getRandomReal(X_MINIMUM, X_MAXIMUM, FRACTIONALSIGN_X_Y),
+    y: getRandomReal(Y_MINIMUM, Y_MAXIMUM, FRACTIONALSIGN_X_Y),
   };
 }
 
-const getCreateNearbyPlace = () => {
-  const newLocation = getCreateLocation();
+const generateNearbyPlace = () => {
+  const newLocation = generateLocation();
   return {
-    author: getCreateAutor(),
+    author: generateAutor(),
     location: newLocation,
-    offrer: getCreateOffer(newLocation),
+    offrer: generateOffer(newLocation),
   };
 };
 
-// eslint-disable-next-line no-unused-vars
-const getCreateNearbyPlaces = () => {
-  return new Array(object).fill(null).map(() => getCreateNearbyPlace());
+const generateNearbyPlaces = () => {
+  return new Array(OBJECTS).fill(null).map(() => generateNearbyPlace());
 }
 
-getCreateNearbyPlace();
+generateNearbyPlaces();
