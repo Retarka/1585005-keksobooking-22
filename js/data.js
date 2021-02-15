@@ -113,3 +113,5 @@ const generateNearbyPlaces = () => {
 }
 
 generateNearbyPlaces();
+
+export {generateNearbyPlaces}
