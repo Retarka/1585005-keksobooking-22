@@ -1,4 +1,4 @@
-import {generateNearbyPlaces} from './data.js';
+import {nearbyPlacesCard} from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -13,21 +13,16 @@ const renderCard = (offerItem) => {
   cardElement.querySelector('.popup__text--address').innerHTML = offerItem.offer.address;
   cardElement.querySelector('.popup__text--price').innerHTML = `${offerItem.offer.price} ₽/ночь`;
 
-  switch (offerItem.offer.type) {
-    case 'bungalow':
-      cardElement.querySelector('.popup__type').textContent = 'Бунгало';
-      break;
-    case 'flat':
-      cardElement.querySelector('.popup__type').textContent = 'Квартира';
-      break;
-    case 'house':
-      cardElement.querySelector('.popup__type').textContent = 'Дом';
-      break;
-    case 'palace':
-      cardElement.querySelector('.popup__type').textContent = 'Дворец';
-      break;
+  const getTypePlace = (offerItem) => {
+    switch (offerItem.offer.type) {
+      case 'bungalow': return 'Бунгало';
+      case 'flat': return 'Квартира';
+      case 'house': return 'Дом';
+      case 'palace': return 'Дворец';
+    }
   }
 
+  cardElement.querySelector('.popup__type').textContent = getTypePlace(offerItem.offer.type);
   cardElement.querySelector('.popup__text--capacity').textContent = `${offerItem.offer.rooms} комнаты для ${offerItem.offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offerItem.offer.checkin}, выезд до ${offerItem.offer.checkout}`;
 
@@ -54,4 +49,4 @@ const renderCard = (offerItem) => {
   return cardElement;
 };
 
-mapCanvas.appendChild(renderCard(generateNearbyPlaces[0]));
+mapCanvas.appendChild(renderCard(nearbyPlacesCard[0]));

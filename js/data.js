@@ -114,4 +114,6 @@ const generateNearbyPlaces = () => {
 
 generateNearbyPlaces();
 
-export {generateNearbyPlaces}
+let nearbyPlacesCard = generateNearbyPlaces();
+
+export {nearbyPlacesCard}
