@@ -27,15 +27,15 @@ const timeArrival = advertisement.querySelector('#timein');
 const timeLeave = advertisement.querySelector('#timeout');
 
 const validatePrice = () => {
-  type.addEventListener('click', () => {
+  type.addEventListener('change', () => {
     price.placeholder = housingInformation[type.value].price;
     price.min = housingInformation[type.value].price;
   });
 };
 
 const validateTime = () => {
-  timeArrival.addEventListener('click', () => timeLeave.value = timeArrival.value);
-  timeLeave.addEventListener('click', () => timeArrival.value = timeLeave.value);
+  timeArrival.addEventListener('change', () => timeLeave.value = timeArrival.value);
+  timeLeave.addEventListener('change', () => timeArrival.value = timeLeave.value);
 }
 
 
