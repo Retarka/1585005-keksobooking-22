@@ -22,9 +22,33 @@ const housingInformation = {
 
 const advertisement = document.querySelector('.ad-form');
 const type = advertisement.querySelector('#type');
+const address = advertisement.querySelector('#address');
+const fieldsets = advertisement.querySelectorAll('fieldset');
 const price = advertisement.querySelector('#price');
 const timeArrival = advertisement.querySelector('#timein');
 const timeLeave = advertisement.querySelector('#timeout');
+
+//Неактивное состояние
+
+const disableForm = () => {
+  advertisement.classList.add('ad-form--disabled');
+  fieldsets.forEach((fieldset) => {
+    fieldset.disabled = true;
+  });
+};
+
+//Активное состояние
+
+const activateForm = () => {
+  advertisement.classList.remove('ad-form--disabled');
+  fieldsets.forEach((fieldset) => {
+    fieldset.disabled = false;
+  });
+};
+
+disableForm();
+
+address.readOnly = true;
 
 const validatePrice = () => {
   type.addEventListener('change', () => {
@@ -41,3 +65,5 @@ const validateTime = () => {
 
 validateTime();
 validatePrice();
+
+export { activateForm, address };

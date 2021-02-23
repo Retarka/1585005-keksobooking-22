@@ -2,8 +2,6 @@ import {nearbyPlacesCard} from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const mapCanvas = document.querySelector('#map-canvas');
-
 const renderCard = (offerItem) => {
 
   const cardElement = cardTemplate.cloneNode(true);
@@ -49,4 +47,9 @@ const renderCard = (offerItem) => {
   return cardElement;
 };
 
-mapCanvas.appendChild(renderCard(nearbyPlacesCard[0]));
+const renderCards = nearbyPlacesCard.map(renderCard);
+const renderCardsFragment = document.createDocumentFragment();
+renderCardsFragment.appendChild(renderCards[0]);
+
+export {nearbyPlacesCard, renderCard};
+
