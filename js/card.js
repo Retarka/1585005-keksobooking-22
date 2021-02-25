@@ -26,22 +26,21 @@ const renderCard = ({author, offer}) => {
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
   const possibleFeaturesList = cardElement.querySelector('.popup__features');
-  const featuresList = offer.offer.features;
+  const featuresList = offer.features;
   possibleFeaturesList.innerHTML = '';
-  for (let i = 0; i < featuresList.length; i++) {
-    const element = `<li class="popup__feature popup__feature--${featuresList[i]}"></li>`;
-    possibleFeaturesList.insertAdjacentHTML('beforeend', element);
-  }
+  featuresList.forEach((feature) => {
+    possibleFeaturesList.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>`);
+  });
 
-  cardElement.querySelector('.popup__description').textContent = offer.offer.description;
+  cardElement.querySelector('.popup__description').textContent = offer.description;
 
   const photoGallery = cardElement.querySelector('.popup__photos');
-  const photosList = offer.offer.photos;
-  photoGallery.innerHTML = '';
-  for (let i = 0; i < photosList.length; i++) {
-    const element = `<img src="${photosList[i]}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`;
-    photoGallery.insertAdjacentHTML('beforeend', element);
-  }
+  const photosList = offer.photos;
+  photoGallery.innerText = '';
+  photosList.forEach((photo) => {
+    photoGallery.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`);
+  });
+
   return cardElement;
 };
 

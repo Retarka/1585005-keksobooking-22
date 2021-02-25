@@ -1,3 +1,16 @@
+const FieldLimit = {
+  MIN_TITLE_LENGTH: 30,
+  MAX_TITLE_LENGTH: 100,
+  MAXIMUM_PRICE: 1000000,
+};
+
+const ROOMS_TONNAGE = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
+};
+
 const housingInformation = {
   bungalow: {
     type: 'Бунгало',
@@ -22,13 +35,16 @@ const housingInformation = {
 
 const advertisement = document.querySelector('.ad-form');
 const type = advertisement.querySelector('#type');
+const title = advertisement.querySelector('#title');
 const address = advertisement.querySelector('#address');
+const room = advertisement.querySelector('#room_number');
+const capacity = advertisement.querySelector('#capacity');
 const fieldsets = advertisement.querySelectorAll('fieldset');
 const price = advertisement.querySelector('#price');
 const timeArrival = advertisement.querySelector('#timein');
 const timeLeave = advertisement.querySelector('#timeout');
 
-//Неактивное состояние
+//НЕАКТИВНОЕ СОСТОЯНИЕ
 
 const disableForm = () => {
   advertisement.classList.add('ad-form--disabled');
@@ -37,7 +53,7 @@ const disableForm = () => {
   });
 };
 
-//Активное состояние
+//АКТИВНОЕ СОСТОЯНИЕ
 
 const activateForm = () => {
   advertisement.classList.remove('ad-form--disabled');
@@ -48,7 +64,41 @@ const activateForm = () => {
 
 disableForm();
 
+//АДРЕСС
+
 address.readOnly = true;
+
+//ВАЛИДАЦИЯ ЗАГОЛОВКА
+
+title.addEventListener('input', () => {
+  const valueLength = title.value.length;
+
+  if (valueLength < FieldLimit.MIN_TITLE_LENGTH) {
+    title.setCustomValidity(`Ещё ${FieldLimit.MIN_TITLE_LENGTH - valueLength} симв.`);
+  } else if (valueLength > FieldLimit.MAX_TITLE_LENGTH) {
+    title.setCustomValidity(`Удалите лишние ${valueLength - FieldLimit.MAX_TITLE_LENGTH} симв.`)
+  } else {
+    title.setCustomValidity('');
+  }
+
+  title.reportValidity();
+});
+
+//ВАЛИДАЦИЯ ЦЕН
+
+price.addEventListener('input', () => {
+  const valueLength = price.value.length;
+
+  if (valueLength > FieldLimit.MAX_PRICE) {
+    price.setCustomValidity(`Цена не должна превышать ${FieldLimit.MAX_PRICE}`)
+  } else {
+    price.setCustomValidity('');
+  }
+
+  price.reportValidity();
+});
+
+//ВЫБОР ВРЕМЕНИ
 
 const validatePrice = () => {
   type.addEventListener('change', () => {
@@ -65,5 +115,21 @@ const validateTime = () => {
 
 validateTime();
 validatePrice();
+
+//ВАЛИДАЦИЯ КОЛИЧЕСТВА ГОСТЕЙ И КОМНАТ
+
+const getRoomTonnage = () => {
+  for (let option of capacity.options) {
+    option.disabled = !ROOMS_TONNAGE[room.value].includes(option.value);
+  }
+  capacity.value = ROOMS_TONNAGE[room.value].includes(capacity.value) ? capacity.value : ROOMS_TONNAGE[room.value][0];
+};
+
+getRoomTonnage();
+
+room.addEventListener('change', () => {
+  getRoomTonnage();
+});
+
 
 export { activateForm, address };
