@@ -1,8 +1,5 @@
-const FieldLimit = {
-  MIN_TITLE_LENGTH: 30,
-  MAX_TITLE_LENGTH: 100,
-  MAXIMUM_PRICE: 1000000,
-};
+const MIN_TITLE_LENGTH = 30
+const MAX_TITLE_LENGTH = 100;
 
 const ROOMS_TONNAGE = {
   '1': ['1'],
@@ -12,25 +9,10 @@ const ROOMS_TONNAGE = {
 };
 
 const housingInformation = {
-  bungalow: {
-    type: 'Бунгало',
-    price: 0,
-  },
-
-  flat: {
-    type: 'Квартира',
-    price: 1000,
-  },
-
-  house: {
-    type: 'Дом',
-    price: 5000,
-  },
-
-  palace: {
-    type: 'Дворец',
-    price: 10000,
-  },
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000,
 };
 
 const advertisement = document.querySelector('.ad-form');
@@ -71,26 +53,37 @@ address.readOnly = true;
 //ВАЛИДАЦИЯ ЗАГОЛОВКА
 
 title.addEventListener('input', () => {
-  const valueLength = title.value.length;
-
-  if (valueLength < FieldLimit.MIN_TITLE_LENGTH) {
-    title.setCustomValidity(`Ещё ${FieldLimit.MIN_TITLE_LENGTH - valueLength} симв.`);
-  } else if (valueLength > FieldLimit.MAX_TITLE_LENGTH) {
-    title.setCustomValidity(`Удалите лишние ${valueLength - FieldLimit.MAX_TITLE_LENGTH} симв.`)
-  } else {
-    title.setCustomValidity('');
+  const getTitleError = (valueLength) => {
+    if (valueLength < MIN_TITLE_LENGTH) {
+      return `Ещё ${(MIN_TITLE_LENGTH - valueLength)} симв.`;
+    }
+    if (valueLength > MAX_TITLE_LENGTH) {
+      return `Удалите лишние ${(valueLength - MAX_TITLE_LENGTH)} симв.`;
+    }
+    return '';
   }
 
-  title.reportValidity();
+  title.addEventListener('input', (evt) => {
+    const element = evt.target;
+    const errorMessage = getTitleError(element.value.length);
+    element.setCustomValidity(errorMessage);
+    element.reportValidity();
+  });
 });
 
 //ВАЛИДАЦИЯ ЦЕН
 
-price.addEventListener('input', () => {
-  const valueLength = price.value.length;
+const getHousingPrice = (type) => {
+  return housingInformation[type];
+};
 
-  if (valueLength > FieldLimit.MAX_PRICE) {
-    price.setCustomValidity(`Цена не должна превышать ${FieldLimit.MAX_PRICE}`)
+price.addEventListener('input', () => {
+  const minPrice = getHousingPrice(type.value);
+
+  if (price.validity.valueMissing) {
+    price.setCustomValidity('Это поле обязательно для заполнения');
+  } else if (price.value < minPrice) {
+    price.setCustomValidity(`Стоимость должна быть не менее ${minPrice}`);
   } else {
     price.setCustomValidity('');
   }
@@ -98,14 +91,17 @@ price.addEventListener('input', () => {
   price.reportValidity();
 });
 
-//ВЫБОР ВРЕМЕНИ
+
 
 const validatePrice = () => {
   type.addEventListener('change', () => {
-    price.placeholder = housingInformation[type.value].price;
-    price.min = housingInformation[type.value].price;
+    price.placeholder = getHousingPrice[type.value].price;
+    price.min = getHousingPrice[type.value].price;
   });
 };
+
+
+//ВЫБОР ВРЕМЕНИ
 
 const validateTime = () => {
   timeArrival.addEventListener('change', () => timeLeave.value = timeArrival.value);
