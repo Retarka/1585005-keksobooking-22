@@ -104,7 +104,7 @@ const generateNearbyPlace = () => {
   return {
     author: generateAutor(),
     location: newLocation,
-    offrer: generateOffer(newLocation),
+    offer: generateOffer(newLocation),
   };
 };
 

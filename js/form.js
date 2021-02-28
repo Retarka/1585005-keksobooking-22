@@ -1,34 +1,32 @@
+const MIN_TITLE_LENGTH = 30
+const MAX_TITLE_LENGTH = 100;
+
+const ROOMS_TONNAGE = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
+};
+
 const housingInformation = {
-  bungalow: {
-    type: 'Бунгало',
-    price: 0,
-  },
-
-  flat: {
-    type: 'Квартира',
-    price: 1000,
-  },
-
-  house: {
-    type: 'Дом',
-    price: 5000,
-  },
-
-  palace: {
-    type: 'Дворец',
-    price: 10000,
-  },
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000,
 };
 
 const advertisement = document.querySelector('.ad-form');
 const type = advertisement.querySelector('#type');
+const title = advertisement.querySelector('#title');
 const address = advertisement.querySelector('#address');
+const room = advertisement.querySelector('#room_number');
+const capacity = advertisement.querySelector('#capacity');
 const fieldsets = advertisement.querySelectorAll('fieldset');
 const price = advertisement.querySelector('#price');
 const timeArrival = advertisement.querySelector('#timein');
 const timeLeave = advertisement.querySelector('#timeout');
 
-//Неактивное состояние
+//НЕАКТИВНОЕ СОСТОЯНИЕ
 
 const disableForm = () => {
   advertisement.classList.add('ad-form--disabled');
@@ -37,7 +35,7 @@ const disableForm = () => {
   });
 };
 
-//Активное состояние
+//АКТИВНОЕ СОСТОЯНИЕ
 
 const activateForm = () => {
   advertisement.classList.remove('ad-form--disabled');
@@ -48,14 +46,62 @@ const activateForm = () => {
 
 disableForm();
 
+//АДРЕСС
+
 address.readOnly = true;
+
+//ВАЛИДАЦИЯ ЗАГОЛОВКА
+
+title.addEventListener('input', () => {
+  const getTitleError = (valueLength) => {
+    if (valueLength < MIN_TITLE_LENGTH) {
+      return `Ещё ${(MIN_TITLE_LENGTH - valueLength)} симв.`;
+    }
+    if (valueLength > MAX_TITLE_LENGTH) {
+      return `Удалите лишние ${(valueLength - MAX_TITLE_LENGTH)} симв.`;
+    }
+    return '';
+  }
+
+  title.addEventListener('input', (evt) => {
+    const element = evt.target;
+    const errorMessage = getTitleError(element.value.length);
+    element.setCustomValidity(errorMessage);
+    element.reportValidity();
+  });
+});
+
+//ВАЛИДАЦИЯ ЦЕН
+
+const getHousingPrice = (type) => {
+  return housingInformation[type];
+};
+
+price.addEventListener('input', () => {
+  const minPrice = getHousingPrice(type.value);
+
+  if (price.validity.valueMissing) {
+    price.setCustomValidity('Это поле обязательно для заполнения');
+  } else if (price.value < minPrice) {
+    price.setCustomValidity(`Стоимость должна быть не менее ${minPrice}`);
+  } else {
+    price.setCustomValidity('');
+  }
+
+  price.reportValidity();
+});
+
+
 
 const validatePrice = () => {
   type.addEventListener('change', () => {
-    price.placeholder = housingInformation[type.value].price;
-    price.min = housingInformation[type.value].price;
+    price.placeholder = getHousingPrice[type.value].price;
+    price.min = getHousingPrice[type.value].price;
   });
 };
+
+
+//ВЫБОР ВРЕМЕНИ
 
 const validateTime = () => {
   timeArrival.addEventListener('change', () => timeLeave.value = timeArrival.value);
@@ -65,5 +111,21 @@ const validateTime = () => {
 
 validateTime();
 validatePrice();
+
+//ВАЛИДАЦИЯ КОЛИЧЕСТВА ГОСТЕЙ И КОМНАТ
+
+const getRoomTonnage = () => {
+  for (let option of capacity.options) {
+    option.disabled = !ROOMS_TONNAGE[room.value].includes(option.value);
+  }
+  capacity.value = ROOMS_TONNAGE[room.value].includes(capacity.value) ? capacity.value : ROOMS_TONNAGE[room.value][0];
+};
+
+getRoomTonnage();
+
+room.addEventListener('change', () => {
+  getRoomTonnage();
+});
+
 
 export { activateForm, address };
