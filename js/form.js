@@ -1,3 +1,8 @@
+import { filter } from './filter.js';
+import { sendData } from './api.js';
+import { openErrorPopup, openSuccessPopup } from './popup.js';
+import { resetMarkerAndAddress } from './map.js';
+
 const MIN_TITLE_LENGTH = 30
 const MAX_TITLE_LENGTH = 100;
 
@@ -25,6 +30,7 @@ const fieldsets = advertisement.querySelectorAll('fieldset');
 const price = advertisement.querySelector('#price');
 const timeArrival = advertisement.querySelector('#timein');
 const timeLeave = advertisement.querySelector('#timeout');
+const resetButton = advertisement.querySelector('.ad-form__reset');
 
 //НЕАКТИВНОЕ СОСТОЯНИЕ
 
@@ -127,5 +133,34 @@ room.addEventListener('change', () => {
   getRoomTonnage();
 });
 
+//ОТМЕНА ПЕРЕХОДА НА НОВУЮ СТРАНИЦУ
+
+const resetForm = (successBanner) => {
+  advertisement.reset();
+  filter.reset();
+  resetMarkerAndAddress();
+
+  if (successBanner) {
+    openSuccessPopup();
+  }
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  advertisement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(true),
+      () => openErrorPopup(),
+      new FormData(evt.target),
+    );
+  });
+}
+
+setUserFormSubmit(resetForm);
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm(false)
+});
 
 export { activateForm, address };

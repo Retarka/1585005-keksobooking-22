@@ -1,5 +1,5 @@
 import { activateForm, address } from './form.js';
-import { nearbyPlacesCard, renderCard } from './card.js';
+
 import { activateFilter } from './filter.js';
 
 /* global L:readonly */
@@ -9,16 +9,19 @@ const INITIAL_COORDINATES = {
   lng: '139.69201',
 };
 
+const ZOOM = 12;
+
+const mainAddress = () => {
+  address.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
+};
+
 const map = L.map('map-canvas')
   .on('load', () => {
     activateFilter();
     activateForm();
-    address.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
+    mainAddress();
   })
-  .setView({
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  }, 12);
+  .setView(INITIAL_COORDINATES, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -28,6 +31,7 @@ L.tileLayer(
 ).addTo(map);
 
 //Маркер
+
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -44,13 +48,21 @@ const mainPinMarker = L.marker(
     draggable: true,
     icon: mainPinIcon,
   },
-);
-
-mainPinMarker.addTo(map);
+).addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
   address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
+
+//КОМАНДА СБРОСА
+
+const resetMarkerAndAddress = () => {
+  map.setView(INITIAL_COORDINATES, ZOOM);
+  map.closePopup();
+  mainPinMarker.setLatLng(INITIAL_COORDINATES);
+  mainAddress();
+};
+
 
 //Дополнительная метка
 
@@ -60,11 +72,11 @@ const ponyPinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-nearbyPlacesCard.forEach((announcement) => {
+const renderOnMap = ({ lat, lng }, popup) => {
   const ponyPin = L.marker(
     {
-      lat: announcement.location.x,
-      lng: announcement.location.y,
+      lat,
+      lng,
     },
     {
       icon: ponyPinIcon,
@@ -73,5 +85,7 @@ nearbyPlacesCard.forEach((announcement) => {
 
   ponyPin
     .addTo(map)
-    .bindPopup(renderCard(announcement));
-});
+    .bindPopup(popup);
+}
+
+export { renderOnMap, resetMarkerAndAddress };
