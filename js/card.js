@@ -1,5 +1,4 @@
-import {nearbyPlacesCard} from './data.js';
-
+import { renderOnMap } from './map.js';
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const renderCard = ({author, offer}) => {
@@ -32,6 +31,7 @@ const renderCard = ({author, offer}) => {
     possibleFeaturesList.insertAdjacentHTML('beforeend', `<li class="popup__feature popup__feature--${feature}"></li>`);
   });
 
+
   cardElement.querySelector('.popup__description').textContent = offer.description;
 
   const photoGallery = cardElement.querySelector('.popup__photos');
@@ -44,11 +44,19 @@ const renderCard = ({author, offer}) => {
   return cardElement;
 };
 
-const renderCards = nearbyPlacesCard.map(renderCard);
-const renderCardsFragment = document.createDocumentFragment();
-renderCardsFragment.appendChild(renderCards[0]);
 
-export {nearbyPlacesCard, renderCard};
+const clearRenderCard = () => {
+  cardTemplate.innerHTML = '';
+};
+
+const renderCards = (similarAnnouncements) => {
+  similarAnnouncements.forEach(({ author, offer, location }) => {
+    const cardElement = renderCard(author, offer);
+    renderOnMap(location, cardElement);
+  });
+};
+
+export { renderCard, clearRenderCard, renderCards };
 
 
 
