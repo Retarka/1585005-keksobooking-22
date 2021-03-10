@@ -6,8 +6,14 @@ import './form.js';
 import './filter.js';
 import './popup.js';
 import { getData } from './api.js';
-import { renderCard } from './card.js';
+import { renderOnMap } from './map.js';
+import { setFilterReset, setFilterChange } from './filter.js';
+
+
+const RERENDER_DELAY = 500;
 
 getData((nearbyPlacesCard) => {
-  renderCard(nearbyPlacesCard);
+  renderOnMap(nearbyPlacesCard);
+  setFilterReset(() => renderOnMap(nearbyPlacesCard));
+  setFilterChange(_.debounce(() => renderOnMap(nearbyPlacesCard), RERENDER_DELAY));
 });

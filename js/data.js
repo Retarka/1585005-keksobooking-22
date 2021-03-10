@@ -5,8 +5,6 @@ import {
   generateRandomArray
 } from './util.js';
 
-const OBJECTS = 10;
-
 const PRICE_MINIMUM = 1700000;
 
 const PRICE_MAXIMUM = 170000000;
@@ -70,6 +68,8 @@ const DESCRIPTION_OF_OBJECTS = [
   'Место для сумасшедших тусовок',
 ];
 
+const ArrayNumber = 10;
+
 const generateAutor = () => {
   return {
     avatar: 'img/avatars/user0' + getRandomIntInclusive(1, 8) + '.png',
@@ -109,11 +109,11 @@ const generateNearbyPlace = () => {
 };
 
 const generateNearbyPlaces = () => {
-  return new Array(OBJECTS).fill(null).map(() => generateNearbyPlace());
+  return new Array(ArrayNumber).fill(null).map(() => generateNearbyPlace());
 }
 
 generateNearbyPlaces();
 
 let nearbyPlacesCard = generateNearbyPlaces();
 
-export {nearbyPlacesCard}
+export { nearbyPlacesCard, ArrayNumber}

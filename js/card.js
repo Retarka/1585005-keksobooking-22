@@ -1,3 +1,4 @@
+import { renderOnMap } from './map.js';
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const renderCard = ({author, offer}) => {
@@ -48,7 +49,14 @@ const clearRenderCard = () => {
   cardTemplate.innerHTML = '';
 };
 
-export { renderCard, clearRenderCard };
+const renderCards = (similarAnnouncements) => {
+  similarAnnouncements.forEach(({ author, offer, location }) => {
+    const cardElement = renderCard(author, offer);
+    renderOnMap(location, cardElement);
+  });
+};
+
+export { renderCard, clearRenderCard, renderCards };
 
 
 
