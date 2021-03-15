@@ -10,10 +10,10 @@ const NumberForPrice = {
   LOW_PRICE: 10000,
   HIGH_PRICE: 50000,
 };
-
-
 const DEFAULT_FILTER_VALUE = 'any';
-//Неактивное состояние
+
+
+//НЕАКТИВНОЕ СОСТОЯНИЕ
 
 const disableFilter = () => {
   filter.classList.add('map__filters--disabled');
@@ -25,7 +25,7 @@ const disableFilter = () => {
 
 disableFilter();
 
-//Активное состояние
+//АКТИВНОЕ СОСТОЯНИЕ
 
 const activateFilter = () => {
   filter.classList.remove('map__filters--disabled');
@@ -34,6 +34,8 @@ const activateFilter = () => {
   });
   featuresFilter.disabled = false;
 };
+
+//ТИПЫ (ВЫПОЛЕНЕНИЕ)
 
 const getFilterByFeatures = (data) => {
   const checkedFeatures = featuresFilter.querySelectorAll('input:checked');
