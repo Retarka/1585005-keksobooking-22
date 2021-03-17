@@ -1,6 +1,6 @@
 import { activateForm, address } from './form.js';
 import { renderCard } from './card.js';
-import { ArrayNumber } from './data.js';
+
 import { activateFilter, filterAnnouncements } from './filter.js';
 
 /* global L:readonly */
@@ -11,6 +11,7 @@ const INITIAL_COORDINATES = {
 };
 
 const ZOOM = 12;
+const ARRAYNUMBER = 10;
 
 const getMainAddress = () => {
   address.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
@@ -82,7 +83,7 @@ const renderOnMap = (similarAnnouncements) => {
   similarAnnouncements
     .slice()
     .filter(filterAnnouncements)
-    .slice(0, ArrayNumber)
+    .slice(0, ARRAYNUMBER)
     .forEach((announcement) => {
       const { location } = announcement;
 

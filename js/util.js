@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 3000;
+
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -32,7 +34,7 @@ const generateRandomArray = (newArray) => {
   return newArray.slice(randomArrayPointer);
 };
 
-const ALERT_SHOW_TIME = 3000;
+
 
 function openErrorDataPopup() {
   let errorPopup = document.createElement('div');
