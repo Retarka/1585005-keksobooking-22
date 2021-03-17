@@ -54,6 +54,10 @@ function openErrorDataPopup() {
   }, ALERT_SHOW_TIME)
 }
 
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
 //СКЛОЕНИЕ СУЩЕСТВИТЕЛЬНЫХ ИСХОДЯ ИЗ ЧИСЛА
 
 const getDeclensionOfNoun = (number, titles) => {
@@ -93,5 +97,6 @@ export {
   openErrorDataPopup,
   getDeclensionOfNoun,
   checkAttributeSrc,
-  checkAttributeTextContent
+  checkAttributeTextContent,
+  isEscEvent
 };

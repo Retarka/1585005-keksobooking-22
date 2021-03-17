@@ -35,7 +35,7 @@ const activateFilter = () => {
   featuresFilter.disabled = false;
 };
 
-//ТИПЫ (ВЫПОЛЕНЕНИЕ)
+//ТИПЫ (ВЫПОЛНЕНИЕ)
 
 const getFilterByFeatures = (data) => {
   const checkedFeatures = featuresFilter.querySelectorAll('input:checked');

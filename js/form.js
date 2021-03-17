@@ -14,10 +14,10 @@ const ROOMS_TONNAGE = {
 };
 
 const housingInformation = {
-  bungalow: 0,
-  flat: 1000,
-  house: 5000,
-  palace: 10000,
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOUSE: 5000,
+  PALACE: 10000,
 };
 
 const advertisement = document.querySelector('.ad-form');
@@ -139,6 +139,7 @@ const resetForm = (successBanner) => {
   advertisement.reset();
   filter.reset();
   resetMarkerAndAddress();
+  getRoomTonnage();
 
   if (successBanner) {
     openSuccessPopup();
@@ -158,6 +159,8 @@ const setUserFormSubmit = (onSuccess) => {
 }
 
 setUserFormSubmit(resetForm);
+
+
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm(false)
