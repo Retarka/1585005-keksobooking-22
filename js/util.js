@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 3000;
+
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -32,7 +34,7 @@ const generateRandomArray = (newArray) => {
   return newArray.slice(randomArrayPointer);
 };
 
-const ALERT_SHOW_TIME = 3000;
+
 
 function openErrorDataPopup() {
   let errorPopup = document.createElement('div');
@@ -53,6 +55,10 @@ function openErrorDataPopup() {
     errorPopup.remove();
   }, ALERT_SHOW_TIME)
 }
+
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
 
 //СКЛОЕНИЕ СУЩЕСТВИТЕЛЬНЫХ ИСХОДЯ ИЗ ЧИСЛА
 
@@ -93,5 +99,6 @@ export {
   openErrorDataPopup,
   getDeclensionOfNoun,
   checkAttributeSrc,
-  checkAttributeTextContent
+  checkAttributeTextContent,
+  isEscEvent
 };

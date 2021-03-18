@@ -2,6 +2,14 @@ import { renderOnMap } from './map.js';
 import { getDeclensionOfNoun, checkAttributeSrc, checkAttributeTextContent } from './util.js';
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
+const getTypePlace = {
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+};
+
+
 const renderCard = ({author, offer}) => {
 
   const cardElement = cardTemplate.cloneNode(true);
@@ -11,14 +19,7 @@ const renderCard = ({author, offer}) => {
   checkAttributeTextContent(cardElement.querySelector('.popup__text--address'), offer.address);
   checkAttributeTextContent(cardElement.querySelector('.popup__text--price'), offer.price, '₽/ночь');
 
-  const getTypePlace = (offer) => {
-    switch (offer.offer.type) {
-      case 'bungalow': return 'Бунгало';
-      case 'flat': return 'Квартира';
-      case 'house': return 'Дом';
-      case 'palace': return 'Дворец';
-    }
-  }
+
 
   checkAttributeTextContent(cardElement.querySelector('.popup__type'), getTypePlace[offer.type]);
 

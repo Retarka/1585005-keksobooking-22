@@ -1,6 +1,6 @@
 import { activateForm, address } from './form.js';
 import { renderCard } from './card.js';
-import { ArrayNumber } from './data.js';
+
 import { activateFilter, filterAnnouncements } from './filter.js';
 
 /* global L:readonly */
@@ -11,8 +11,9 @@ const INITIAL_COORDINATES = {
 };
 
 const ZOOM = 12;
+const ARRAYNUMBER = 10;
 
-const mainAddress = () => {
+const getMainAddress = () => {
   address.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
 };
 
@@ -20,7 +21,7 @@ const map = L.map('map-canvas')
   .on('load', () => {
     activateFilter();
     activateForm();
-    mainAddress();
+    getMainAddress();
   })
   .setView(INITIAL_COORDINATES, ZOOM);
 
@@ -33,11 +34,12 @@ L.tileLayer(
 
 //Маркер
 
+const MAIN_PIN_WIDTH = 52;
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [MAIN_PIN_WIDTH, MAIN_PIN_WIDTH],
+  iconAnchor: [MAIN_PIN_WIDTH / 2, MAIN_PIN_WIDTH],
 });
 
 const mainPinMarker = L.marker(
@@ -61,7 +63,7 @@ const resetMarkerAndAddress = () => {
   map.setView(INITIAL_COORDINATES, ZOOM);
   map.closePopup();
   mainPinMarker.setLatLng(INITIAL_COORDINATES);
-  mainAddress();
+  getMainAddress();
 };
 
 
@@ -69,8 +71,8 @@ const resetMarkerAndAddress = () => {
 
 const ponyPinIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [MAIN_PIN_WIDTH, MAIN_PIN_WIDTH],
+  iconAnchor: [MAIN_PIN_WIDTH / 2, MAIN_PIN_WIDTH],
 });
 
 let ponyPins = [];
@@ -81,7 +83,7 @@ const renderOnMap = (similarAnnouncements) => {
   similarAnnouncements
     .slice()
     .filter(filterAnnouncements)
-    .slice(0, ArrayNumber)
+    .slice(0, ARRAYNUMBER)
     .forEach((announcement) => {
       const { location } = announcement;
 

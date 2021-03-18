@@ -3,8 +3,9 @@ import { sendData } from './api.js';
 import { openErrorPopup, openSuccessPopup } from './popup.js';
 import { resetMarkerAndAddress } from './map.js';
 
-const MIN_TITLE_LENGTH = 30
+const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
+
 
 const ROOMS_TONNAGE = {
   '1': ['1'],
@@ -13,11 +14,26 @@ const ROOMS_TONNAGE = {
   '100': ['0'],
 };
 
-const housingInformation = {
-  bungalow: 0,
-  flat: 1000,
-  house: 5000,
-  palace: 10000,
+const getHousingPrice = {
+  palace: {
+    type: 'Дворец',
+    price: 10000,
+  },
+
+  house: {
+    type: 'Дом',
+    price: 5000,
+  },
+
+  flat: {
+    type: 'Квартира',
+    price: 1000,
+  },
+
+  bungalow: {
+    type: 'Бунгало',
+    price: 0,
+  },
 };
 
 const advertisement = document.querySelector('.ad-form');
@@ -79,9 +95,7 @@ title.addEventListener('input', () => {
 
 //ВАЛИДАЦИЯ ЦЕН
 
-const getHousingPrice = (type) => {
-  return housingInformation[type];
-};
+
 
 price.addEventListener('input', () => {
   const minPrice = getHousingPrice(type.value);
@@ -139,6 +153,7 @@ const resetForm = (successBanner) => {
   advertisement.reset();
   filter.reset();
   resetMarkerAndAddress();
+  getRoomTonnage();
 
   if (successBanner) {
     openSuccessPopup();
@@ -158,6 +173,8 @@ const setUserFormSubmit = (onSuccess) => {
 }
 
 setUserFormSubmit(resetForm);
+
+
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm(false)

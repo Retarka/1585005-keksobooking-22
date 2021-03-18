@@ -10,6 +10,7 @@ const NumberForPrice = {
   LOW_PRICE: 10000,
   HIGH_PRICE: 50000,
 };
+
 const DEFAULT_FILTER_VALUE = 'any';
 
 
@@ -35,15 +36,7 @@ const activateFilter = () => {
   featuresFilter.disabled = false;
 };
 
-//ТИПЫ (ВЫПОЛЕНЕНИЕ)
-
-const getFilterByFeatures = (data) => {
-  const checkedFeatures = featuresFilter.querySelectorAll('input:checked');
-  return Array.from(checkedFeatures).every((input) => {
-    return data.offer.features.includes(input.value);
-  });
-};
-
+//ФИЛЬТР ЦЕНЫ
 
 const getFilterByPrice = (data) => {
   switch (priceFilter.value) {
@@ -56,6 +49,15 @@ const getFilterByPrice = (data) => {
     case 'any':
       return true;
   }
+};
+
+//ТИПЫ (ВЫПОЛНЕНИЕ)
+
+const getFilterByFeatures = (data) => {
+  const checkedFeatures = featuresFilter.querySelectorAll('input:checked');
+  return Array.from(checkedFeatures).every((input) => {
+    return data.offer.features.includes(input.value);
+  });
 };
 
 const filterAnnouncements = (data) => {

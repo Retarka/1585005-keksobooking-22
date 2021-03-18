@@ -1,3 +1,6 @@
+
+import { isEscEvent } from './util.js';
+
 const main = document.querySelector('main');
 const errorCard = document.querySelector('#error').content;
 const newErrorCard = errorCard.querySelector('.error').cloneNode(true);
@@ -7,7 +10,7 @@ const successCard = document.querySelector('#success').content;
 const newSuccessCard = successCard.querySelector('.success').cloneNode(true);
 
 const onPressed = (evt) => {
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
+  if (isEscEvent(evt)) {
     evt.preventDefault();
     closePopup();
   }
