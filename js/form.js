@@ -3,8 +3,9 @@ import { sendData } from './api.js';
 import { openErrorPopup, openSuccessPopup } from './popup.js';
 import { resetMarkerAndAddress } from './map.js';
 
-const MIN_TITLE_LENGTH = 30
+const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
+
 
 const ROOMS_TONNAGE = {
   '1': ['1'],
@@ -13,11 +14,26 @@ const ROOMS_TONNAGE = {
   '100': ['0'],
 };
 
-const housingInformation = {
-  BUNGALOW: 0,
-  FLAT: 1000,
-  HOUSE: 5000,
-  PALACE: 10000,
+const getHousingPrice = {
+  palace: {
+    type: 'Дворец',
+    price: 10000,
+  },
+
+  house: {
+    type: 'Дом',
+    price: 5000,
+  },
+
+  flat: {
+    type: 'Квартира',
+    price: 1000,
+  },
+
+  bungalow: {
+    type: 'Бунгало',
+    price: 0,
+  },
 };
 
 const advertisement = document.querySelector('.ad-form');
@@ -79,9 +95,7 @@ title.addEventListener('input', () => {
 
 //ВАЛИДАЦИЯ ЦЕН
 
-const getHousingPrice = (type) => {
-  return housingInformation[type];
-};
+
 
 price.addEventListener('input', () => {
   const minPrice = getHousingPrice(type.value);
