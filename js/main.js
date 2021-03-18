@@ -12,6 +12,7 @@ import { setFilterReset, setFilterChange } from './filter.js';
 
 const RERENDER_DELAY = 500;
 
+
 getData((nearbyPlacesCard) => {
   renderOnMap(nearbyPlacesCard);
   setFilterReset(() => renderOnMap(nearbyPlacesCard));
