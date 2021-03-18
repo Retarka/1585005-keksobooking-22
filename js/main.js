@@ -1,4 +1,4 @@
-
+/* global _:readonly */
 import './util.js';
 import './map.js';
 import './card.js';
