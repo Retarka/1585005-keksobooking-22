@@ -13,13 +13,14 @@
   "devDependencies": {
     "browser-sync": "2.26.14",
     "eslint": "7.18.0",
-    "eslint-config-htmlacademy": "^2.0.0",
-    "eslint-config-rallycoding": "^3.2.0"
+    "eslint-config-htmlacademy": "2.1.0",
+    "eslint-config-rallycoding": "3.2.0",
+    "lodash": "^4.17.21"
   },
   "license": "MIT",
   "dependencies": {
-    "leaflet-plugins": "^3.4.0",
-    "lodash": "^4.17.21"
+    "leaflet": "1.7.1",
+    "leaflet-plugins": "3.4.0"
   },
   "scripts": {
     "start": "browser-sync start --server --no-ui --files \"js/**/*.js\"",
