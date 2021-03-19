@@ -5,7 +5,7 @@ import { resetMarkerAndAddress } from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-
+const MAX_PRICE = 1000000;
 
 const ROOMS_TONNAGE = {
   '1': ['1'],
@@ -97,19 +97,30 @@ title.addEventListener('input', () => {
 
 
 
-price.addEventListener('input', () => {
-  const minPrice = getHousingPrice(type.value);
+// price.addEventListener('input', () => {
+//   const valueLength = price.value;
 
-  if (price.validity.valueMissing) {
-    price.setCustomValidity('Это поле обязательно для заполнения');
-  } else if (price.value < minPrice) {
-    price.setCustomValidity(`Стоимость должна быть не менее ${minPrice}`);
-  } else {
-    price.setCustomValidity('');
-  }
+//   if (valueLength > MAX_PRICE) {
+//     price.setCustomValidity(`Цена не должна превышать ${MAX_PRICE}`)
+//   } else {
+//     price.setCustomValidity('');
+//   }
+
+//   price.reportValidity();
+// });
+
+
+
+price.addEventListener('input', () => {
+  const valueLength = price.value;
+  valueLength > MAX_PRICE
+    ? price.setCustomValidity('Цена не должна превышать ${ MAX_PRICE }')
+    : price.setCustomValidity('');
 
   price.reportValidity();
 });
+
+
 
 
 
