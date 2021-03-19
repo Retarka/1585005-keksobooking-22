@@ -11,7 +11,7 @@ const INITIAL_COORDINATES = {
 };
 
 const ZOOM = 12;
-const ARRAYNUMBER = 10;
+const ARRAY_NUMBER = 10;
 
 const getMainAddress = () => {
   address.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
@@ -83,7 +83,7 @@ const renderOnMap = (similarAnnouncements) => {
   similarAnnouncements
     .slice()
     .filter(filterAnnouncements)
-    .slice(0, ARRAYNUMBER)
+    .slice(0, ARRAY_NUMBER)
     .forEach((announcement) => {
       const { location } = announcement;
 
