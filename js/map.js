@@ -17,6 +17,7 @@ const getMainAddress = () => {
   address.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
 };
 
+
 const map = L.map('map-canvas')
   .on('load', () => {
     activateFilter();
