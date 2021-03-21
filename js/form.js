@@ -96,21 +96,6 @@ title.addEventListener('input', () => {
 //ВАЛИДАЦИЯ ЦЕН
 
 
-
-// price.addEventListener('input', () => {
-//   const valueLength = price.value;
-
-//   if (valueLength > MAX_PRICE) {
-//     price.setCustomValidity(`Цена не должна превышать ${MAX_PRICE}`)
-//   } else {
-//     price.setCustomValidity('');
-//   }
-
-//   price.reportValidity();
-// });
-
-
-
 price.addEventListener('input', () => {
   const valueLength = price.value;
   valueLength > MAX_PRICE
@@ -121,13 +106,14 @@ price.addEventListener('input', () => {
 });
 
 
-
-
+const setPriceParameters = () => {
+  price.placeholder = getHousingPrice[type.value].price;
+  price.min = getHousingPrice[type.value].price;
+};
 
 const validatePrice = () => {
   type.addEventListener('change', () => {
-    price.placeholder = getHousingPrice[type.value].price;
-    price.min = getHousingPrice[type.value].price;
+    setPriceParameters();
   });
 };
 
@@ -140,8 +126,9 @@ const validateTime = () => {
 }
 
 
-validateTime();
 validatePrice();
+validateTime();
+
 
 //ВАЛИДАЦИЯ КОЛИЧЕСТВА ГОСТЕЙ И КОМНАТ
 
@@ -162,6 +149,7 @@ room.addEventListener('change', () => {
 
 const resetForm = (successBanner) => {
   advertisement.reset();
+  setPriceParameters();
   filter.reset();
   resetMarkerAndAddress();
   getRoomTonnage();
@@ -184,6 +172,7 @@ const setUserFormSubmit = (onSuccess) => {
 }
 
 setUserFormSubmit(resetForm);
+
 
 
 resetButton.addEventListener('click', (evt) => {
