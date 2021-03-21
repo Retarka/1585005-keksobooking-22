@@ -145,6 +145,7 @@ room.addEventListener('change', () => {
   getRoomTonnage();
 });
 
+
 //ОТМЕНА ПЕРЕХОДА НА НОВУЮ СТРАНИЦУ
 
 const resetForm = (successBanner) => {
